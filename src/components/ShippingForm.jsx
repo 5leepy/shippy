@@ -1,34 +1,79 @@
 import React from 'react';
 
 function ShippingForm() {
+    // Buat state untuk menampung semua data form
+  const [formData, setFormData] = useState({
+    senderName: '',
+    senderPhone: '',
+    recipientName: '',
+    recipientPhone: '',
+    recipientAddress: '',
+    recipientProvince: '',
+    recipientCity: '',
+    recipientPostalCode: '',
+  });
+
+  const handleChange = (e) => {
+  const { name, value } = e.target;
+  setFormData(prevState => ({
+    ...prevState,
+    [name]: value
+  }));
+};
   return (
     <form className="shipping-form">
+      {/* --- Bagian Pengirim (Tetap Sama) --- */}
       <h2>Informasi Pengirim</h2>
       <div className="form-group">
         <label htmlFor="senderName">Nama Pengirim</label>
-        <input type="text" id="senderName" name="senderName" />
+        <input type="text" id="senderName" name="senderName" value={formData.senderName} onChange={handleChange} />
       </div>
       <div className="form-group">
         <label htmlFor="senderPhone">No. HP Pengirim</label>
-        <input type="text" id="senderPhone" name="senderPhone" />
+        <input type="text" id="senderPhone" name="senderPhone" value={formData.senderPhone} onChange={handleChange} />
       </div>
 
+      {/* --- Bagian Penerima (Dengan Perubahan) --- */}
       <h2>Informasi Penerima</h2>
       <div className="form-group">
         <label htmlFor="recipientName">Nama Penerima</label>
-        <input type="text" id="recipientName" name="recipientName" />
+        <input type="text" id="recipientName" name="recipientName" value={formData.recipientName} onChange={handleChange} />
       </div>
       <div className="form-group">
         <label htmlFor="recipientPhone">No. HP Penerima</label>
-        <input type="text" id="recipientPhone" name="recipientPhone" />
+        <input type="text" id="recipientPhone" name="recipientPhone" value={formData.recipientPhone} onChange={handleChange} />
       </div>
       <div className="form-group">
-        <label htmlFor="recipientAddress">Alamat Lengkap</label>
-        <textarea id="recipientAddress" name="recipientAddress" rows="3"></textarea>
+        <label htmlFor="recipientAddress">Alamat Lengkap (Nama Jalan, No. Rumah, RT/RW)</label>
+        <textarea id="recipientAddress" name="recipientAddress" rows="3" value={formData.recipientAddress} onChange={handleChange}></textarea>
       </div>
+
+      {/* Dropdown Provinsi */}
       <div className="form-group">
         <label htmlFor="recipientProvince">Provinsi</label>
-        <input type="text" id="recipientProvince" name="recipientProvince" />
+        <select id="recipientProvince" name="recipientProvince" value={formData.recipientProvince} onChange={handleChange}>
+          <option value="">Pilih Provinsi</option>
+          {provinces.map(province => (
+            <option key={province.name} value={province.name}>{province.name}</option>
+          ))}
+        </select>
+      </div>
+
+      {/* Dropdown Kota/Kabupaten */}
+      <div className="form-group">
+        <label htmlFor="recipientCity">Kota / Kabupaten</label>
+        <select id="recipientCity" name="recipientCity" value={formData.recipientCity} onChange={handleChange} disabled={!formData.recipientProvince}>
+          <option value="">Pilih Kota/Kabupaten</option>
+          {cities.map(city => (
+            <option key={city} value={city}>{city}</option>
+          ))}
+        </select>
+      </div>
+      
+      {/* Input Kode Pos */}
+      <div className="form-group">
+        <label htmlFor="recipientPostalCode">Kode Pos</label>
+        <input type="text" id="recipientPostalCode" name="recipientPostalCode" value={formData.recipientPostalCode} onChange={handleChange} />
       </div>
     </form>
   );
