@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { provinces } from '../data/alamat.js';
 
 function ShippingForm() {
     // Buat state untuk menampung semua data form
@@ -12,6 +13,19 @@ function ShippingForm() {
     recipientCity: '',
     recipientPostalCode: '',
   });
+
+    const [cities, setCities] = useState([]);
+
+    useEffect(() => {
+    if (formData.recipientProvince) {
+      const selectedProvince = provinces.find(p => p.name === formData.recipientProvince);
+      setCities(selectedProvince ? selectedProvince.cities : []);
+      // Reset pilihan kota jika provinsi berubah
+      setFormData(prev => ({ ...prev, recipientCity: '' }));
+    } else {
+      setCities([]);
+    }
+  }, [formData.recipientProvince]);
 
   const handleChange = (e) => {
   const { name, value } = e.target;
