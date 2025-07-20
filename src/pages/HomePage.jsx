@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import ShippingForm from '../components/ShippingForm';
-import LabelPreview from '../components/LabelPreview'; // <-- Impor komponen baru
+import LabelPreview from '../components/LabelPreview';
+import styles from './HomePage.module.css';
 
 function HomePage() {
   
@@ -25,8 +26,8 @@ function HomePage() {
   };
 
   return (
-    <div className="app-container">
-      <div className="form-section">
+    <div className={styles.appContainer}>
+      <div className={styles.formSection}>
         <h1>ShippyLabel</h1>
         <p>Buat label pengiriman dengan mudah.</p>
         <hr />
@@ -37,7 +38,7 @@ function HomePage() {
           setFormData={setFormData} // setFormData juga dikirim untuk dropdown
         />
       </div>
-      <div className="preview-section">
+      <div className={styles.previewSection}>
         {/* Kirim state sebagai prop ke LabelPreview */}
         <LabelPreview data={formData} />
       </div>

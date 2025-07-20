@@ -1,9 +1,10 @@
 import React from 'react';
+import styles from './LabelPreview.module.css';
 
 // Komponen ini menerima 'data' sebagai prop
 function LabelPreview({ data }) {
   return (
-    <div className="label-preview-container">
+    <div className={styles.labelPreviewContainer}>
       <h2>Pratinjau Label</h2>
       <div className="shipping-label">
         <div className="label-header">

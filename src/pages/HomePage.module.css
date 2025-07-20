@@ -1,0 +1,18 @@
+/* src/pages/HomePage.module.css */
+
+.appContainer {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2rem;
+  padding: 2rem;
+}
+
+.formSection {
+  flex: 1;
+  min-width: 400px;
+}
+
+.previewSection {
+  flex: 1;
+  min-width: 400px;
+}
