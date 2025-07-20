@@ -1,42 +1,24 @@
 import React, { useState, useEffect } from 'react';
 import { provinces } from '../data/alamat.js';
 
-function ShippingForm() {
-    // Buat state untuk menampung semua data form
-  const [formData, setFormData] = useState({
-    senderName: '',
-    senderPhone: '',
-    recipientName: '',
-    recipientPhone: '',
-    recipientAddress: '',
-    recipientProvince: '',
-    recipientCity: '',
-    recipientPostalCode: '',
-  });
+// Terima formData, handleChange, dan setFormData dari props
+function ShippingForm({ formData, handleChange, setFormData }) {
+  const [cities, setCities] = useState([]);
 
-    const [cities, setCities] = useState([]);
-
-    useEffect(() => {
+  useEffect(() => {
     if (formData.recipientProvince) {
       const selectedProvince = provinces.find(p => p.name === formData.recipientProvince);
       setCities(selectedProvince ? selectedProvince.cities : []);
-      // Reset pilihan kota jika provinsi berubah
+      // Reset kota saat provinsi berubah. Gunakan setFormData dari props.
       setFormData(prev => ({ ...prev, recipientCity: '' }));
     } else {
       setCities([]);
     }
-  }, [formData.recipientProvince]);
+  }, [formData.recipientProvince, setFormData]);
 
-  const handleChange = (e) => {
-  const { name, value } = e.target;
-  setFormData(prevState => ({
-    ...prevState,
-    [name]: value
-  }));
-};
   return (
     <form className="shipping-form">
-      {/* --- Bagian Pengirim (Tetap Sama) --- */}
+      {/* ... semua input field tidak berubah, karena mereka sudah menggunakan formData dan handleChange ... */}
       <h2>Informasi Pengirim</h2>
       <div className="form-group">
         <label htmlFor="senderName">Nama Pengirim</label>
@@ -47,7 +29,6 @@ function ShippingForm() {
         <input type="text" id="senderPhone" name="senderPhone" value={formData.senderPhone} onChange={handleChange} />
       </div>
 
-      {/* --- Bagian Penerima (Dengan Perubahan) --- */}
       <h2>Informasi Penerima</h2>
       <div className="form-group">
         <label htmlFor="recipientName">Nama Penerima</label>
@@ -61,8 +42,6 @@ function ShippingForm() {
         <label htmlFor="recipientAddress">Alamat Lengkap (Nama Jalan, No. Rumah, RT/RW)</label>
         <textarea id="recipientAddress" name="recipientAddress" rows="3" value={formData.recipientAddress} onChange={handleChange}></textarea>
       </div>
-
-      {/* Dropdown Provinsi */}
       <div className="form-group">
         <label htmlFor="recipientProvince">Provinsi</label>
         <select id="recipientProvince" name="recipientProvince" value={formData.recipientProvince} onChange={handleChange}>
@@ -72,8 +51,6 @@ function ShippingForm() {
           ))}
         </select>
       </div>
-
-      {/* Dropdown Kota/Kabupaten */}
       <div className="form-group">
         <label htmlFor="recipientCity">Kota / Kabupaten</label>
         <select id="recipientCity" name="recipientCity" value={formData.recipientCity} onChange={handleChange} disabled={!formData.recipientProvince}>
@@ -83,8 +60,6 @@ function ShippingForm() {
           ))}
         </select>
       </div>
-      
-      {/* Input Kode Pos */}
       <div className="form-group">
         <label htmlFor="recipientPostalCode">Kode Pos</label>
         <input type="text" id="recipientPostalCode" name="recipientPostalCode" value={formData.recipientPostalCode} onChange={handleChange} />
