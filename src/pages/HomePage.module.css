@@ -16,3 +16,22 @@
   flex: 1;
   min-width: 400px;
 }
+
+.paperSizeSelector {
+  max-width: 400px;
+  margin: 2rem auto 0;
+  padding: 1rem;
+  border: 1px dashed #ccc;
+  border-radius: 8px;
+  text-align: center;
+}
+
+.paperSizeSelector h4 {
+  margin-top: 0;
+  margin-bottom: 1rem;
+}
+
+.paperSizeSelector label {
+  margin: 0 1rem;
+  cursor: pointer;
+}
