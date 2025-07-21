@@ -3,7 +3,11 @@ import Barcode from 'react-barcode';
 import html2canvas from 'html2canvas';
 import styles from './LabelPreview.module.css';
 
-
+const formatDisplayDate = (dateString) => {
+  if (!dateString) return ''; // Kembalikan string kosong jika tidak ada tanggal
+  const [year, month, day] = dateString.split('-');
+  return `${day}/${month}/${year}`;
+};
 // Ini menjadi komponen fungsional biasa, tanpa forwardRef
 function LabelPreview({ data, paperSize }) {
   const [barcodeImage, setBarcodeImage] = useState('null');
@@ -51,7 +55,7 @@ function LabelPreview({ data, paperSize }) {
 
     <div className={styles.labelPreviewContainer}>
       {/* 1. Barcode yang di-generate tapi disembunyikan */}
-      <div>
+      <div style={{ height: 0, overflow: 'hidden' }}>
         {data.shippingCode && (
           <div ref={barcodeRef} className={styles.hiddenBarcodeWrapper}>
             <Barcode
@@ -68,15 +72,26 @@ function LabelPreview({ data, paperSize }) {
       <div className={styles.shippingLabel}>
         <div className={styles.labelHeader}>
           <h3>ShippyLabel</h3>
+          <p className={styles.slogan}>Dibuat gratis di shippylabel.id</p>
         </div>
+        {/* 2. Tambahkan Tanggal di bagian Pengirim */}
         <div className={styles.labelSection}>
-          <strong>PENGIRIM:</strong>
-          <p>{data.senderName || 'Nama Pengirim'}</p>
-          <p>{data.senderPhone || 'No. HP Pengirim'}</p>
+          <div className={styles.sectionRow}>
+            <div className={styles.paddingAll}>
+              <strong>PENGIRIM:</strong>
+              <p>{data.senderName || 'Nama Pengirim'}</p>
+              <p>{data.senderPhone || 'No. HP Pengirim'}</p>
+            </div>
+            <div className={`${styles.dateSection} ${styles.paddingAll}`}>
+              <p>TGL:{formatDisplayDate(data.shippingDate)}</p>
+            </div>
+          </div>
         </div>
+        
         {/* ... (bagian Pengirim dan Penerima tetap sama) ... */}
         <div className={styles.labelSection}>
-          <strong>PENERIMA:</strong>
+          <div className={styles.paddingAll}>
+            <strong>PENERIMA:</strong>
           <p>{data.recipientName || 'Nama Penerima'}</p>
           <p>{data.recipientPhone || 'No. HP Penerima'}</p>
           <p>{data.recipientAddress || 'Alamat Penerima'}</p>
@@ -86,6 +101,7 @@ function LabelPreview({ data, paperSize }) {
           <p>
             {(data.recipientCityName || 'Kota') + ', ' + (data.recipientProvinceName || 'Provinsi') + ', ' + (data.recipientPostalCode || 'Kode Pos')}
           </p>
+          </div>
         </div>
 
         {/* 2. Tambahkan bagian Barcode di sini */}

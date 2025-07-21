@@ -15,16 +15,46 @@
 .labelHeader {
   text-align: center;
   border-bottom: 2px solid black;
+  padding: 0.25rem;
 }
 
 .labelHeader h3 {
   margin: 0;
+  padding: 0.2rem;
+}
+
+.paddingAll {
   padding: 0.5rem;
-} 
+}
+
+/* Style untuk slogan "iklan" */
+.slogan {
+  font-size: 5pt;
+  margin: 0;
+  padding: 0;
+  color: #555;
+}
 
 .labelSection {
-  border-bottom: 1px dashed #555;
-  padding: 0.5rem;
+  border-bottom: 1px solid black;
+}
+
+/* Style untuk membuat layout 2 kolom */
+.sectionRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start; 
+}
+
+.dateSection {
+  flex-shrink: 0;
+  text-align: right; 
+  border-left: 1px solid black; 
+  align-self: stretch;   
+}
+
+.dateSection p {
+  font-size: 8px;
 }
 
 .labelSection:last-child {

@@ -15,12 +15,17 @@ const getFormattedDate = (date) => {
     return `${year}-${month}-${day}`;
 };
 
+// --- PENGATURAN TANGGAL ---
+const daysAllowed = 7; // <-- CUKUP UBAH ANGKA DI SINI (misal: 1, 7, 10, 30)
+
 const today = new Date();
-const tomorrow = new Date(today);
-tomorrow.setDate(tomorrow.getDate() + 1);
+const maxDateObject = new Date(today);
+maxDateObject.setDate(maxDateObject.getDate() + daysAllowed);
 
 const minDate = getFormattedDate(today);
-const maxDate = getFormattedDate(tomorrow);
+const maxDate = getFormattedDate(maxDateObject);
+// --- AKHIR PENGATURAN TANGGAL ---
+
 
 function ShippingForm({ formData, setFormData }) {
   // Ganti state 'provinces' menjadi 'apiProvinces'
