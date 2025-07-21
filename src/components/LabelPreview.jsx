@@ -68,7 +68,6 @@ function LabelPreview({ data, paperSize }) {
           </div>
         )}
       </div>
-      <h2 className="no-print">Pratinjau Label</h2>
       <div className={styles.shippingLabel}>
         <div className={styles.labelHeader}>
           <h3>ShippyLabel</h3>

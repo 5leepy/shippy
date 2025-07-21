@@ -64,11 +64,33 @@
   cursor: pointer;
   font-size: 0.9em;
 }
+.previewTitle {
+  text-align: center;
+  margin-top: 0;
+  margin-bottom: 1.5rem;
+  font-size: 1.5em;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 1rem;
+}
+
+/* Pembungkus untuk area pratinjau (garis putus-putus) */
+.previewAreaWrapper {
+  border: 2px dashed #ccc;
+  border-radius: 8px;
+  padding: 1rem;
+  background-color: #f9f9f9;
+  min-height: 250px; /* Beri tinggi minimal agar stabil */
+
+  /* Gunakan flexbox untuk menengahkan label di dalamnya */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .labelPrintArea {
-  border: 1px dashed #999;
-  margin: 0 auto;
+  padding: 0.5rem;
   box-sizing: border-box;
   background: white;
   transition: width 0.3s ease, height 0.3s ease;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
 }

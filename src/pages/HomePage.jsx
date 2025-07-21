@@ -95,16 +95,22 @@ function HomePage() {
 
         {/* Kolom Kanan: Pratinjau */}
         <div className={styles.previewSection}>
-          <div 
-            ref={labelRef} 
-            className={styles.labelPrintArea}
-            style={{ 
-              width: `${paperSizes.find(p => p.id === paperSizeId).width}mm`,
-              height: '150mm', 
-              fontSize: `${paperSizes.find(p => p.id === paperSizeId).fontSize}pt`,
-            }}
-          >
-            <LabelPreview data={formData} paperSize={paperSizeId} />
+          {/* 1. Tambahkan judul di sini */}
+          <h2 className={styles.previewTitle}>Tampilan Label</h2>
+
+          {/* 2. Beri div pembungkus baru untuk area pratinjau */}
+          <div className={styles.previewAreaWrapper}>
+            <div 
+              ref={labelRef} 
+              className={styles.labelPrintArea}
+              style={{ 
+                width: `${paperSizes.find(p => p.id === paperSizeId).width}mm`,
+                height: '150mm', 
+                fontSize: `${paperSizes.find(p => p.id === paperSizeId).fontSize}pt`,
+              }}
+            >
+              <LabelPreview data={formData} paperSize={paperSizeId} />
+            </div>
           </div>
 
           <div className={styles.paperSizeSelector}>
