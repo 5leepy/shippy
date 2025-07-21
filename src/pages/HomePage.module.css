@@ -46,24 +46,52 @@
 }
 
 /* Selector ukuran kertas dan tombol download */
-.paperSizeSelector {
-  margin-top: 1.5rem;
-  padding: 1rem;
-  border: 1px dashed #ccc;
+.paperSelectorGroup {
+  display: inline-flex;
+  border: 1px solid #ccc;
   border-radius: 8px;
-  text-align: center;
+  overflow: hidden; /* Penting untuk radius di sudut */
 }
 
-.paperSizeSelector h4 {
-  margin-top: 0;
-  margin-bottom: 1rem;
-}
-
-.paperSizeSelector label {
-  margin: 0 0.5rem;
+.paperSelectorLabel {
+  padding: 0.5rem 1rem;
   cursor: pointer;
-  font-size: 0.9em;
+  background-color: #f9f9f9;
+  color: #333;
+  transition: background-color 0.2s ease, color 0.2s ease; 
+  border-left: 1px solid #ccc;
+  position: relative; 
 }
+
+.paperSelectorContainer {
+  margin-top: 1.5rem;
+  text-align: center; /* <-- PASTIKAN BARIS INI ADA */
+}
+
+.paperSelectorLabel:first-child {
+  border-left: none; 
+}
+
+.paperSelectorLabel:hover {
+  background-color: #e9e9e9;
+}
+
+/* Sembunyikan radio button asli */
+.paperSelectorInput {
+  position: absolute;
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+/* Cara lain yang lebih visual: mengubah background */
+.paperSelectorLabel.active,
+.paperSelectorInput:checked ~ .paperSelectorLabel {
+    background-color: #007bff;
+    color: white;
+    font-weight: bold;
+}
+
 .previewTitle {
   text-align: center;
   margin-top: 0;

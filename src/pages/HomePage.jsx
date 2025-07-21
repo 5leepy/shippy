@@ -9,7 +9,7 @@ import styles from './HomePage.module.css';
 
 const paperSizes = [
   // Tambahkan properti fontSize untuk setiap ukuran
-  { id: '100mm', name: '100mm x 150mm (A6)', width: 100, fontSize: 11 },
+  { id: '100mm', name: '100mm', width: 100, fontSize: 11 },
   { id: '80mm', name: '80mm', width: 80, fontSize: 10 }, 
   { id: '58mm', name: '58mm', width: 58, fontSize: 8 },  
 ];
@@ -113,20 +113,25 @@ function HomePage() {
             </div>
           </div>
 
-          <div className={styles.paperSizeSelector}>
+          <div className={styles.paperSelectorContainer}>
             <h4>Pilih Ukuran Kertas Cetak:</h4>
-            {paperSizes.map(size => (
-              <label key={size.id}>
-                <input
-                  type="radio"
-                  name="paperSize"
-                  value={size.id}
-                  checked={paperSizeId === size.id}
-                  onChange={(e) => setPaperSizeId(e.target.value)}
-                />
-                {size.name}
-              </label>
-            ))}
+            <div className={styles.paperSelectorGroup}>
+              {paperSizes.map(size => (
+                <label key={size.id} 
+                className={`${styles.paperSelectorLabel} ${paperSizeId === size.id ? styles.active : ''}`}
+                >
+                  <input
+                    type="radio"
+                    name="paperSize"
+                    value={size.id}
+                    checked={paperSizeId === size.id}
+                    onChange={(e) => setPaperSizeId(e.target.value)}
+                    className={styles.paperSelectorInput}
+                  />
+                  <span>{size.name}</span>
+                </label>
+              ))}
+            </div>
           </div>
           
           <button className="button-primary" onClick={handleDownloadPdf}>
