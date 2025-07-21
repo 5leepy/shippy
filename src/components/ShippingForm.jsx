@@ -7,6 +7,21 @@ function toTitleCase(str) {
   return str.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
 }
 
+// Fungsi untuk mendapatkan tanggal dalam format YYYY-MM-DD
+const getFormattedDate = (date) => {
+    const year = date.getFullYear();
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+};
+
+const today = new Date();
+const tomorrow = new Date(today);
+tomorrow.setDate(tomorrow.getDate() + 1);
+
+const minDate = getFormattedDate(today);
+const maxDate = getFormattedDate(tomorrow);
+
 function ShippingForm({ formData, setFormData }) {
   // Ganti state 'provinces' menjadi 'apiProvinces'
   const [apiProvinces, setApiProvinces] = useState([]);
@@ -126,6 +141,30 @@ function ShippingForm({ formData, setFormData }) {
       <div className={styles.formGroup}>
         <label htmlFor="senderPhone">No. HP Pengirim</label>
         <input type="text" id="senderPhone" name="senderPhone" value={formData.senderPhone} onChange={handleChange} />
+      </div>
+      {/* Tambahkan dua input baru di sini, di bawah info pengirim */}
+      <div className={styles.formGroup}>
+        <label htmlFor="shippingDate">Tanggal Pengiriman</label>
+        <input 
+          type="date" 
+          id="shippingDate" 
+          name="shippingDate" 
+          value={formData.shippingDate} 
+          onChange={handleChange}
+          min={minDate}
+          max={maxDate}
+        />
+      </div>
+
+      <div className={styles.formGroup}>
+        <label htmlFor="shippingCode">Kode Pengiriman / AWB (Opsional)</label>
+        <input 
+          type="text" 
+          id="shippingCode" 
+          name="shippingCode" 
+          value={formData.shippingCode} 
+          onChange={handleChange}
+        />
       </div>
 
       <h2>Informasi Penerima</h2>

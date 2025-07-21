@@ -14,7 +14,18 @@ const paperSizes = [
   { id: '58mm', name: '58mm', width: 58, fontSize: 8 },  
 ];
 
+
+
 function HomePage() {
+  // Fungsi untuk mendapatkan tanggal hari ini dalam format YYYY-MM-DD
+  const getTodayDate = () => {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, '0');
+    const day = String(today.getDate()).padStart(2, '0');
+    return `${year}-${month}-${day}`;
+  };
+
   const [formData, setFormData] = useState({
     senderName: '',
     senderPhone: '',
@@ -23,7 +34,12 @@ function HomePage() {
     recipientAddress: '',
     recipientProvince: '',
     recipientCity: '',
+    recipientDistrict: '',
+    recipientVillage: '',
     recipientPostalCode: '',
+    // Tambahkan dua baris ini
+    shippingDate: getTodayDate(), // Default ke hari ini
+    shippingCode: '', // Kode resi/AWB
   });
 
   const [paperSizeId, setPaperSizeId] = useState('100mm');
@@ -92,13 +108,11 @@ function HomePage() {
           className={styles.labelPrintArea}
           style={{ 
             width: `${paperSizes.find(p => p.id === paperSizeId).width}mm`,
-            // Tetapkan tinggi agar tidak jumpy di layar
             height: `150mm`, 
-            // Atur fontSize secara dinamis, tambahkan satuan 'pt'
             fontSize: `${paperSizes.find(p => p.id === paperSizeId).fontSize}pt`,
            }}
         >
-          <LabelPreview data={formData} />
+          <LabelPreview data={formData} paperSize={paperSizeId} />
         </div>
 
         <div className={styles.paperSizeSelector}>
