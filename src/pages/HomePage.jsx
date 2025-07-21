@@ -17,13 +17,12 @@ const paperSizes = [
 
 
 function HomePage() {
-  // Fungsi untuk mendapatkan tanggal hari ini dalam format YYYY-MM-DD
   const getTodayDate = () => {
     const today = new Date();
     const year = today.getFullYear();
     const month = String(today.getMonth() + 1).padStart(2, '0');
     const day = String(today.getDate()).padStart(2, '0');
-    return `${day}-${month}-${year}`;
+    return `${year}-${month}-${day}`;
   };
 
   const [formData, setFormData] = useState({
@@ -78,63 +77,56 @@ function HomePage() {
     });
   };
 
-  
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setFormData(prevState => ({ ...prevState, [name]: value }));
-  };
-
-  
-
   return (
-    <div className={styles.appContainer}>
-      <div className={styles.formSection}>
+<div className={styles.pageContainer}>
+      <header className={styles.header}>
         <h1>ShippyLabel</h1>
         <p>Buat label pengiriman dengan mudah.</p>
-        <hr />
-        <ShippingForm
-          formData={formData}
-          handleChange={handleChange}
-          setFormData={setFormData}
-        />
-      </div>
-      <div className={styles.previewSection}>
-        {/*
-          Kita beri style inline untuk menyimulasikan ukuran kertas di pratinjau
-        */}
-        <div 
-          ref={labelRef} 
-          className={styles.labelPrintArea}
-          style={{ 
-            width: `${paperSizes.find(p => p.id === paperSizeId).width}mm`,
-            height: `150mm`, 
-            fontSize: `${paperSizes.find(p => p.id === paperSizeId).fontSize}pt`,
-           }}
-        >
-          <LabelPreview data={formData} paperSize={paperSizeId} />
+      </header>
+
+      <div className={styles.appContainer}>
+        {/* Kolom Kiri: Form */}
+        <div className={styles.formSection}>
+          <ShippingForm
+            formData={formData}
+            setFormData={setFormData}
+          />
         </div>
 
-        <div className={styles.paperSizeSelector}>
-          <h4>Pilih Ukuran Kertas Cetak:</h4>
-          {paperSizes.map(size => (
-            <label key={size.id}>
-              <input
-                type="radio"
-                name="paperSize"
-                value={size.id}
-                checked={paperSizeId === size.id}
-                onChange={(e) => setPaperSizeId(e.target.value)}
-              />
-              {size.name}
-            </label>
-          ))}
+        {/* Kolom Kanan: Pratinjau */}
+        <div className={styles.previewSection}>
+          <div 
+            ref={labelRef} 
+            className={styles.labelPrintArea}
+            style={{ 
+              width: `${paperSizes.find(p => p.id === paperSizeId).width}mm`,
+              height: '150mm', 
+              fontSize: `${paperSizes.find(p => p.id === paperSizeId).fontSize}pt`,
+            }}
+          >
+            <LabelPreview data={formData} paperSize={paperSizeId} />
+          </div>
+
+          <div className={styles.paperSizeSelector}>
+            <h4>Pilih Ukuran Kertas Cetak:</h4>
+            {paperSizes.map(size => (
+              <label key={size.id}>
+                <input
+                  type="radio"
+                  name="paperSize"
+                  value={size.id}
+                  checked={paperSizeId === size.id}
+                  onChange={(e) => setPaperSizeId(e.target.value)}
+                />
+                {size.name}
+              </label>
+            ))}
+          </div>
+          
+          <button className="button-primary" onClick={handleDownloadPdf}>
+            📄 Download PDF
+          </button>
         </div>
-        
-        {/* Ganti nama tombol dan event handler-nya */}
-        <button className="button-primary" onClick={handleDownloadPdf}>
-          📄 Download PDF
-        </button>
       </div>
     </div>
   );

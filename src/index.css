@@ -1,52 +1,23 @@
 /* src/index.css */
 
-/* ... (kode di luar @media print tetap sama) ... */
-
-@media print {
-  @page {
-    size: auto; 
-    margin: 0mm;
-  }
-
-  body {
-    margin: 0;
-    padding: 0;
-  }
-
-  /* Sembunyikan elemen yang memiliki kelas "no-print" */
-  .no-print {
-    display: none !important;
-  }
-
-  /* Saat mencetak, sembunyikan semua elemen di body */
-  body > * {
-    display: none !important;
-  }
-
-  /* KECUALI elemen dengan class .label-print-area */
-  body > .label-print-area {
-    display: block !important;
-  }
-
-  /* Atur ukuran lebar DAN FONT sesuai pilihan kertas.
-    Satuan 'pt' (points) lebih baik untuk cetak daripada 'px'.
-  */
-  .label-print-area.paper-100mm {
-      width: 100mm !important;
-      font-size: 11pt !important;
-  }
-
-  .label-print-area.paper-80mm {
-      width: 80mm !important;
-      font-size: 10pt !important;
-  }
-
-  .label-print-area.paper-58mm {
-      width: 58mm !important;
-      font-size: 8pt !important;
-  }
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+  color: rgba(0, 0, 0, 0.87);
 }
 
+body {
+  margin: 0;
+  background-color: #f4f7f6;
+}
+
+/* Pastikan #root dan main memenuhi lebar halaman */
+#root, main {
+  width: 100%;
+}
+
+/* Gaya untuk tombol aksi utama */
 .button-primary {
   display: block;
   width: 100%;
