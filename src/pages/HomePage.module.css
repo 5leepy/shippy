@@ -35,3 +35,12 @@
   margin: 0 1rem;
   cursor: pointer;
 }
+
+.labelPrintArea {
+  border: 1px dashed #999;
+  padding: 1rem;
+  margin: 1rem auto;
+  box-sizing: border-box;
+  background: white; /* Pastikan ada background putih untuk html2canvas */
+  transition: width 0.3s ease, height 0.3s ease; /* Transisi halus */
+}

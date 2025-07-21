@@ -6,7 +6,7 @@ function LabelPreview({ data }) {
   return (
     // Tidak ada lagi div pembungkus dan tidak ada ref
     <div className={styles.labelPreviewContainer}>
-      <h2>Pratinjau Label</h2>
+      <h2 className="no-print">Pratinjau Label</h2>
       <div className={styles.shippingLabel}>
         <div className={styles.labelHeader}>
           <h3>ShippyLabel</h3>
@@ -22,10 +22,9 @@ function LabelPreview({ data }) {
           <p>{data.recipientPhone || 'No. HP Penerima'}</p>
           <p>{data.recipientAddress || 'Alamat Penerima'}</p>
           <p>
-            {(data.recipientCity || 'Kota') + ', ' + (data.recipientProvince || 'Provinsi')}
+            {(data.recipientCity || 'Kota') + ', ' + (data.recipientProvince || 'Provinsi') + ', ' + (data.recipientPostalCode || 'Kode Pos')}
           </p>
-          <p>{data.recipientPostalCode || 'Kode Pos'}</p>
-        </div>
+          </div>
       </div>
     </div>
   );

@@ -1,10 +1,10 @@
 /* src/index.css */
 
-/* Gaya ini HANYA aktif saat mencetak */
+/* ... (kode di luar @media print tetap sama) ... */
+
 @media print {
-  /* Atur halaman cetak agar tidak ada margin/padding */
   @page {
-    size: auto;
+    size: auto; 
     margin: 0mm;
   }
 
@@ -13,27 +13,36 @@
     padding: 0;
   }
 
-  /* Sembunyikan semua elemen di halaman */
-  body > * {
-    display: none;
+  /* Sembunyikan elemen yang memiliki kelas "no-print" */
+  .no-print {
+    display: none !important;
   }
 
-  /* Tampilkan HANYA area yang ingin kita cetak */
-  .label-print-area {
+  /* Saat mencetak, sembunyikan semua elemen di body */
+  body > * {
+    display: none !important;
+  }
+
+  /* KECUALI elemen dengan class .label-print-area */
+  body > .label-print-area {
     display: block !important;
   }
 
-  /* Atur ukuran lebar label sesuai pilihan */
-  .label-print-area.A6,
-  .label-print-area.label-100mm {
-      width: 100mm;
+  /* Atur ukuran lebar DAN FONT sesuai pilihan kertas.
+    Satuan 'pt' (points) lebih baik untuk cetak daripada 'px'.
+  */
+  .label-print-area.paper-100mm {
+      width: 100mm !important;
+      font-size: 11pt !important;
   }
 
-  .label-print-area.label-80mm {
-      width: 80mm;
+  .label-print-area.paper-80mm {
+      width: 80mm !important;
+      font-size: 10pt !important;
   }
 
-  .label-print-area.label-58mm {
-      width: 58mm;
+  .label-print-area.paper-58mm {
+      width: 58mm !important;
+      font-size: 8pt !important;
   }
 }
