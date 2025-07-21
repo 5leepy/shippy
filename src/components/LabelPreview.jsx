@@ -7,9 +7,9 @@ function LabelPreview({ data, paperSize }) {
   const getBarcodeWidth = () => {
     switch (paperSize) {
       case '100mm':
-        return 2;
+        return 2.1;
       case '80mm':
-        return 1.5;
+        return 1.65;
       case '58mm':
         return 1;
       default:
