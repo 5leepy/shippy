@@ -132,7 +132,7 @@ function HomePage() {
         </div>
         
         {/* Ganti nama tombol dan event handler-nya */}
-        <button className={styles.printButton} onClick={handleDownloadPdf}>
+        <button className="button-primary" onClick={handleDownloadPdf}>
           📄 Download PDF
         </button>
       </div>
