@@ -10,7 +10,7 @@ const formatDisplayDate = (dateString) => {
 };
 // Ini menjadi komponen fungsional biasa, tanpa forwardRef
 function LabelPreview({ data, paperSize }) {
-  const [barcodeImage, setBarcodeImage] = useState('null');
+  const [barcodeImage, setBarcodeImage] = useState(null);
   const barcodeRef = useRef(null);
   useEffect(() => {
     if (data.shippingCode && barcodeRef.current) {
@@ -21,7 +21,7 @@ function LabelPreview({ data, paperSize }) {
         });
       }, 50); // Jeda 50 milidetik
     } else {
-      setBarcodeImage('null');
+      setBarcodeImage(null);
     }
   }, [data.shippingCode, paperSize]);
   const getBarcodeWidth = () => {
@@ -54,7 +54,7 @@ function LabelPreview({ data, paperSize }) {
   return (
 
     <div className={styles.labelPreviewContainer}>
-      {/* 1. Barcode yang di-generate tapi disembunyikan */}
+      {/* ... (bagian barcode tersembunyi) ... */}
       <div style={{ height: 0, overflow: 'hidden' }}>
         {data.shippingCode && (
           <div ref={barcodeRef} className={styles.hiddenBarcodeWrapper}>
@@ -92,7 +92,7 @@ function LabelPreview({ data, paperSize }) {
         <div className={styles.labelSection}>
           <div className={styles.paddingAll}>
             <strong>PENERIMA:</strong>
-          <p>{data.recipientName || 'Nama Penerima'}</p>
+          <p className={styles.recipientName}>{data.recipientName || 'Nama Penerima'}</p>
           <p>{data.recipientPhone || 'No. HP Penerima'}</p>
           <p>{data.recipientAddress || 'Alamat Penerima'}</p>
           <p>
