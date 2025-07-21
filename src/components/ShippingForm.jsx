@@ -11,6 +11,8 @@ function ShippingForm({ formData, setFormData }) {
   // Ganti state 'provinces' menjadi 'apiProvinces'
   const [apiProvinces, setApiProvinces] = useState([]);
   const [cities, setCities] = useState([]);
+  const [districts, setDistricts] = useState([]);
+  const [villages, setVillages] = useState([]);
 
     useEffect(() => {
     fetch('/api/provinces.json')
@@ -22,7 +24,7 @@ function ShippingForm({ formData, setFormData }) {
       .catch(error => console.error('Error fetching provinces:', error));
   }, []);
 
-  // ... useEffect untuk kota/kabupaten (tetap ada, tapi akan kita modifikasi nanti)
+  
   useEffect(() => {
     // Pastikan ada provinsi yang dipilih
     if (formData.recipientProvince) {
@@ -38,6 +40,32 @@ function ShippingForm({ formData, setFormData }) {
       setCities([]);
     }
   }, [formData.recipientProvince]);
+  useEffect(() => {
+    if (formData.recipientCity) {
+      fetch(`/api/districts/${formData.recipientCity}.json`)
+        .then(response => response.json())
+        .then(districtsData => {
+          setDistricts(districtsData);
+        })
+        .catch(error => console.error('Error fetching districts:', error));
+    } else {
+      setDistricts([]);
+    }
+  }, [formData.recipientCity]);
+
+  // useEffect untuk mengambil data kelurahan/desa
+  useEffect(() => {
+    if (formData.recipientDistrict) {
+      fetch(`/api/villages/${formData.recipientDistrict}.json`)
+        .then(response => response.json())
+        .then(villagesData => {
+          setVillages(villagesData);
+        })
+        .catch(error => console.error('Error fetching villages:', error));
+    } else {
+      setVillages([]);
+    }
+  }, [formData.recipientDistrict]);
 
     // Tambahkan handleChange yang baru di sini
   const handleChange = (e) => {
@@ -48,16 +76,39 @@ function ShippingForm({ formData, setFormData }) {
 
       if (name === 'recipientProvince') {
         const selectedProvince = apiProvinces.find(p => p.id === value);
-        // Terapkan fungsi di sini
         newState.recipientProvinceName = selectedProvince ? toTitleCase(selectedProvince.name) : '';
+        // Reset semua dropdown di bawahnya
         newState.recipientCity = '';
         newState.recipientCityName = '';
+        newState.recipientDistrict = '';
+        newState.recipientDistrictName = '';
+        newState.recipientVillage = '';
+        newState.recipientVillageName = '';
       }
 
       if (name === 'recipientCity') {
         const selectedCity = cities.find(c => c.id === value);
-        // Dan terapkan fungsi di sini juga
         newState.recipientCityName = selectedCity ? toTitleCase(selectedCity.name) : '';
+        // Reset semua dropdown di bawahnya
+        newState.recipientDistrict = '';
+        newState.recipientDistrictName = '';
+        newState.recipientVillage = '';
+        newState.recipientVillageName = '';
+      }
+
+      // Tambahkan logika untuk kecamatan
+      if (name === 'recipientDistrict') {
+        const selectedDistrict = districts.find(d => d.id === value);
+        newState.recipientDistrictName = selectedDistrict ? toTitleCase(selectedDistrict.name) : '';
+        // Reset dropdown di bawahnya
+        newState.recipientVillage = '';
+        newState.recipientVillageName = '';
+      }
+      
+      // Tambahkan logika untuk kelurahan
+      if (name === 'recipientVillage') {
+        const selectedVillage = villages.find(v => v.id === value);
+        newState.recipientVillageName = selectedVillage ? toTitleCase(selectedVillage.name) : '';
       }
       
       return newState;
@@ -117,6 +168,25 @@ function ShippingForm({ formData, setFormData }) {
             ))}
         </select>
       </div>
+      <div className={styles.formGroup}>
+          <label htmlFor="recipientDistrict">Kecamatan</label>
+          <select id="recipientDistrict" name="recipientDistrict" value={formData.recipientDistrict} onChange={handleChange} disabled={!formData.recipientCity}>
+            <option value="">Pilih Kecamatan</option>
+            {districts.map(district => (
+              <option key={district.id} value={district.id}>{toTitleCase(district.name)}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className={styles.formGroup}>
+          <label htmlFor="recipientVillage">Kelurahan / Desa</label>
+          <select id="recipientVillage" name="recipientVillage" value={formData.recipientVillage} onChange={handleChange} disabled={!formData.recipientDistrict}>
+            <option value="">Pilih Kelurahan/Desa</option>
+            {villages.map(village => (
+              <option key={village.id} value={village.id}>{toTitleCase(village.name)}</option>
+            ))}
+          </select>
+        </div>
       <div className={styles.formGroup}>
         <label htmlFor="recipientPostalCode">Kode Pos</label>
         <input type="text" id="recipientPostalCode" name="recipientPostalCode" value={formData.recipientPostalCode} onChange={handleChange} />

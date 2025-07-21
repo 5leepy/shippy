@@ -22,6 +22,9 @@ function LabelPreview({ data }) {
           <p>{data.recipientPhone || 'No. HP Penerima'}</p>
           <p>{data.recipientAddress || 'Alamat Penerima'}</p>
           <p>
+            {(data.recipientVillageName || 'Kelurahan') + ', ' + (data.recipientDistrictName || 'Kecamatan')}
+          </p>
+          <p>
             {(data.recipientCityName || 'Kota') + ', ' + (data.recipientProvinceName || 'Provinsi') + ', ' + (data.recipientPostalCode || 'Kode Pos')}
           </p>
           </div>
