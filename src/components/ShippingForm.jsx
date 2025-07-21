@@ -1,21 +1,68 @@
 // src/components/ShippingForm.jsx
 import React, { useState, useEffect } from 'react';
-import { provinces } from '../data/alamat.js';
 import styles from './ShippingForm.module.css'; 
 
-function ShippingForm({ formData, handleChange, setFormData }) {
+function toTitleCase(str) {
+  if (!str) return '';
+  return str.toLowerCase().replace(/\b\w/g, char => char.toUpperCase());
+}
 
+function ShippingForm({ formData, setFormData }) {
+  // Ganti state 'provinces' menjadi 'apiProvinces'
+  const [apiProvinces, setApiProvinces] = useState([]);
   const [cities, setCities] = useState([]);
 
+    useEffect(() => {
+    fetch('/api/provinces.json')
+      .then(response => response.json())
+      .then(provincesData => {
+        // LANGSUNG gunakan datanya, karena API ini mengembalikan array
+        setApiProvinces(provincesData); 
+      })
+      .catch(error => console.error('Error fetching provinces:', error));
+  }, []);
+
+  // ... useEffect untuk kota/kabupaten (tetap ada, tapi akan kita modifikasi nanti)
   useEffect(() => {
+    // Pastikan ada provinsi yang dipilih
     if (formData.recipientProvince) {
-      const selectedProvince = provinces.find(p => p.name === formData.recipientProvince);
-      setCities(selectedProvince ? selectedProvince.cities : []);
-      setFormData(prev => ({ ...prev, recipientCity: '' }));
+      // Gunakan ID provinsi untuk mengambil data kota/kabupaten yang sesuai
+      fetch(`/api/regencies/${formData.recipientProvince}.json`)
+        .then(response => response.json())
+        .then(regenciesData => {
+          setCities(regenciesData);
+        })
+        .catch(error => console.error('Error fetching regencies:', error));
     } else {
+      // Jika tidak ada provinsi yang dipilih, kosongkan daftar kota
       setCities([]);
     }
-  }, [formData.recipientProvince, setFormData]);
+  }, [formData.recipientProvince]);
+
+    // Tambahkan handleChange yang baru di sini
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+
+    setFormData(prevState => {
+      const newState = { ...prevState, [name]: value };
+
+      if (name === 'recipientProvince') {
+        const selectedProvince = apiProvinces.find(p => p.id === value);
+        // Terapkan fungsi di sini
+        newState.recipientProvinceName = selectedProvince ? toTitleCase(selectedProvince.name) : '';
+        newState.recipientCity = '';
+        newState.recipientCityName = '';
+      }
+
+      if (name === 'recipientCity') {
+        const selectedCity = cities.find(c => c.id === value);
+        // Dan terapkan fungsi di sini juga
+        newState.recipientCityName = selectedCity ? toTitleCase(selectedCity.name) : '';
+      }
+      
+      return newState;
+    });
+  };
 
   return (
     <form className={styles.shippingForm}> 
@@ -45,20 +92,29 @@ function ShippingForm({ formData, handleChange, setFormData }) {
       </div>
       <div className={styles.formGroup}>
         <label htmlFor="recipientProvince">Provinsi</label>
+        {/*
+          Ubah value ke ID provinsi, bukan nama.
+          Ubah 'provinces.map' menjadi 'apiProvinces.map'
+        */}
+        {/* Dropdown Provinsi */}
         <select id="recipientProvince" name="recipientProvince" value={formData.recipientProvince} onChange={handleChange}>
-          <option value="">Pilih Provinsi</option>
-          {provinces.map(province => (
-            <option key={province.name} value={province.name}>{province.name}</option>
-          ))}
+            <option value="">Pilih Provinsi</option>
+            {apiProvinces.map(province => (
+                <option key={province.id} value={province.id}>{toTitleCase(province.name)}</option>
+            ))}
         </select>
       </div>
       <div className={styles.formGroup}>
         <label htmlFor="recipientCity">Kota / Kabupaten</label>
+        {/*
+          Perbaiki bagian 'value' dan 'key' serta teks di dalam option
+        */}
+        {/* Dropdown Kota */}
         <select id="recipientCity" name="recipientCity" value={formData.recipientCity} onChange={handleChange} disabled={!formData.recipientProvince}>
-          <option value="">Pilih Kota/Kabupaten</option>
-          {cities.map(city => (
-            <option key={city} value={city}>{city}</option>
-          ))}
+            <option value="">Pilih Kota/Kabupaten</option>
+            {cities.map(city => (
+                <option key={city.id} value={city.id}>{toTitleCase(city.name)}</option>
+            ))}
         </select>
       </div>
       <div className={styles.formGroup}>
