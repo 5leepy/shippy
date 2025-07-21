@@ -1,25 +1,69 @@
-import React from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import Barcode from 'react-barcode';
+import html2canvas from 'html2canvas';
 import styles from './LabelPreview.module.css';
+
 
 // Ini menjadi komponen fungsional biasa, tanpa forwardRef
 function LabelPreview({ data, paperSize }) {
+  const [barcodeImage, setBarcodeImage] = useState('null');
+  const barcodeRef = useRef(null);
+  useEffect(() => {
+    if (data.shippingCode && barcodeRef.current) {
+      // Beri sedikit waktu agar barcode selesai render sebelum di-capture
+      setTimeout(() => {
+        html2canvas(barcodeRef.current).then(canvas => {
+          setBarcodeImage(canvas.toDataURL('image/png'));
+        });
+      }, 50); // Jeda 50 milidetik
+    } else {
+      setBarcodeImage('null');
+    }
+  }, [data.shippingCode, paperSize]);
   const getBarcodeWidth = () => {
     switch (paperSize) {
       case '100mm':
-        return 2.1;
+        return 1.5;
       case '80mm':
-        return 1.65;
+        return 1.2;
       case '58mm':
         return 1;
       default:
-        return 2; // Default jika tidak ada yang cocok
+        return 2;
     }
   };
+  
    console.log("Ukuran Kertas Diterima:", paperSize);
+
+   const getBarcodeFontSize = () => {
+    switch (paperSize) {
+      case '100mm':
+        return '11pt'; // Ukuran font untuk kertas 100mm
+      case '80mm':
+        return '10pt'; // Ukuran font untuk kertas 80mm
+      case '58mm':
+        return '8pt';  // Ukuran font untuk kertas 58mm
+      default:
+        return '11pt'; // Ukuran default
+    }
+  };
   return (
-    // Tidak ada lagi div pembungkus dan tidak ada ref
+
     <div className={styles.labelPreviewContainer}>
+      {/* 1. Barcode yang di-generate tapi disembunyikan */}
+      <div>
+        {data.shippingCode && (
+          <div ref={barcodeRef} className={styles.hiddenBarcodeWrapper}>
+            <Barcode
+              value={data.shippingCode}
+              width={getBarcodeWidth()}      // Lebar setiap bar
+              height={20}    // Tinggi barcode
+              displayValue={false}// Tampilkan teks kode di bawah barcode// Tidak perlu teks, kita hanya butuh barnya
+              margin={0}
+            />
+          </div>
+        )}
+      </div>
       <h2 className="no-print">Pratinjau Label</h2>
       <div className={styles.shippingLabel}>
         <div className={styles.labelHeader}>
@@ -47,17 +91,17 @@ function LabelPreview({ data, paperSize }) {
         {/* 2. Tambahkan bagian Barcode di sini */}
         {data.shippingCode && (
           <div className={styles.barcodeSection}>
-            <Barcode 
-              value={data.shippingCode}
-              width={getBarcodeWidth()}      // Lebar setiap bar
-              height={30}    // Tinggi barcode
-              displayValue={true} // Tampilkan teks kode di bawah barcode
-              fontSize={12}
-              textPosition='top'
-              marginTop={2} // Atur margin atas sesuai kebutuhan
-              marginBottom={2} // Atur margin bawah sesuai kebutuhan
-              marginLeft={-1} // Atur margin sesuai kebutuhan
-              marginRight={-1} // Atur margin sesuai kebutuhan
+            {/* Tampilkan teks kode secara manual */}
+            <p 
+              className={styles.barcodeText} 
+              style={{ fontSize: getBarcodeFontSize() }}
+            >
+              {data.shippingCode}
+            </p>
+            <img 
+                src={barcodeImage} 
+                alt={`Barcode untuk ${data.shippingCode}`}
+                className={styles.barcodeImage} 
             />
           </div>
         )}

@@ -57,6 +57,28 @@
 }
 
 .barcodeSection {
+  padding: 0 0.2rem;
+}
+
+.barcodeText {
+  font-family: 'Courier New', Courier, monospace;
+  font-size: 10pt;
+  margin-bottom: 2px; /* Beri jarak ke barcode di bawahnya */
+  margin-top: 0;
+  font-weight: bold;
   text-align: center;
-  margin: 0; /* Pusatkan barcode */
+}
+
+.barcodeImage {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 0 auto; /* Pusatkan barcode */
+}
+
+.hiddenBarcodeWrapper {
+  display: inline-block;
+  margin: 0;
+  padding: 0; /* Style yang kita pindahkan */
+  /* Kita juga bisa tambahkan style lain di sini nanti jika perlu */
 }
