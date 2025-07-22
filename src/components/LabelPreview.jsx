@@ -79,7 +79,7 @@ function LabelPreview({ data, paperSize }) {
             <div className={styles.paddingAll}>
               <strong>PENGIRIM:</strong>
               <p>{data.senderName || 'Nama Pengirim'}</p>
-              <p>{data.senderPhone || 'No. HP Pengirim'}</p>
+              <p>{data.senderPhone ? '+62' + data.senderPhone : 'No. HP Pengirim'}</p>
             </div>
             <div className={`${styles.dateSection} ${styles.paddingAll}`}>
               <p>TGL:{formatDisplayDate(data.shippingDate)}</p>
