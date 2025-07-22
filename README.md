@@ -41,7 +41,7 @@
 ### Instalasi
 
 ```bash
-git clone https://github.com/username-anda/shippylabel.git
+git clone https://github.com/5leepy/shippylabel.git
 cd shippylabel
 npm install
 ```
