@@ -1,7 +1,8 @@
 // src/pages/HomePage.jsx
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import jsPDF from 'jspdf';
 import html2canvas from 'html2canvas';
+import { detectCourier } from '../utils/courierDetector';
 
 import ShippingForm from '../components/ShippingForm';
 import LabelPreview from '../components/LabelPreview';
@@ -43,6 +44,12 @@ function HomePage() {
 
   const [paperSizeId, setPaperSizeId] = useState('100mm');
   const labelRef = useRef();
+
+  const [detectedCourier, setDetectedCourier] = useState(null);
+  useEffect(() => {
+    const courier = detectCourier(formData.shippingCode);
+    setDetectedCourier(courier);
+  }, [formData.shippingCode]);
 
   const handleDownloadPdf = () => {
     const labelToCapture = labelRef.current;
@@ -109,7 +116,7 @@ function HomePage() {
                 fontSize: `${paperSizes.find(p => p.id === paperSizeId).fontSize}pt`,
               }}
             >
-              <LabelPreview data={formData} paperSize={paperSizeId} />
+              <LabelPreview data={formData} paperSize={paperSizeId} courier={detectedCourier}/>
             </div>
           </div>
 

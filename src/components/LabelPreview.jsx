@@ -9,7 +9,7 @@ const formatDisplayDate = (dateString) => {
   return `${day}/${month}/${year}`;
 };
 // Ini menjadi komponen fungsional biasa, tanpa forwardRef
-function LabelPreview({ data, paperSize }) {
+function LabelPreview({ data, paperSize, courier }) {
   const [barcodeImage, setBarcodeImage] = useState(null);
   const barcodeRef = useRef(null);
   useEffect(() => {
@@ -70,7 +70,16 @@ function LabelPreview({ data, paperSize }) {
       </div>
       <div className={styles.shippingLabel}>
         <div className={styles.labelHeader}>
-          <h3>ShippyLabel</h3>
+          {/* Tampilkan logo jika kurir terdeteksi */}
+          {courier && (
+            <img
+              src={`/src/assets/logos/${courier}.png`}
+              alt={`Logo ${courier}`}
+              className={styles.courierLogo}
+            />
+          )}
+          {/* Tampilkan ShippyLabel jika tidak ada logo */}
+          {!courier && <h3>ShippyLabel</h3>}
           <p className={styles.slogan}>Dibuat gratis di shippylabel.id</p>
         </div>
         {/* 2. Tambahkan Tanggal di bagian Pengirim */}
@@ -92,7 +101,7 @@ function LabelPreview({ data, paperSize }) {
           <div className={styles.paddingAll}>
             <strong>PENERIMA:</strong>
           <p className={styles.recipientName}>{data.recipientName || 'Nama Penerima'}</p>
-          <p>{data.recipientPhone || 'No. HP Penerima'}</p>
+          <p>{data.recipientPhone ? '+62' + data.recipientPhone : 'No. HP Penerima'}</p>
           <p>{data.recipientAddress || 'Alamat Penerima'}</p>
           <p>
             {(data.recipientVillageName || 'Kelurahan') + ', ' + (data.recipientDistrictName || 'Kecamatan')}

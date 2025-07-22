@@ -102,3 +102,9 @@
   top: -9999px;
   left: -9999px;
 }
+
+.courierLogo {
+  max-height: 35px;
+  width: auto;
+  margin-bottom: 0.25rem;
+}
