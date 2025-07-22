@@ -81,4 +81,4 @@ Proyek ini dirilis dengan lisensi **MIT**. Silakan gunakan dan modifikasi sesuai
 
 ## 💡 Catatan Tambahan
 
-Jika Anda menemukan bug atau ingin berkontribusi, silakan buat [issue](https://github.com/username-anda/shippylabel/issues) atau [pull request](https://github.com/username-anda/shippylabel/pulls). Terima kasih atas partisipasinya!
+Jika Anda menemukan bug atau ingin berkontribusi, silakan buat [issue](https://github.com/5leepy/shippylabel/issues) atau [pull request](https://github.com/5leepy/shippylabel/pulls). Terima kasih atas partisipasinya!
